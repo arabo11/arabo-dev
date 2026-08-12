@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arabo Markarian · DevOps / TechOps Engineer</title>
+<meta name="description" content="Arabo Markarian — DevOps / TechOps Engineer. Edge, cost, and reliability for high-traffic web platforms.">
+<link rel="canonical" href="https://arabo.dev/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://arabo.dev/">
+<meta property="og:title" content="Arabo Markarian · DevOps / TechOps Engineer">
+<meta property="og:description" content="Edge, cost, and reliability for high-traffic web platforms. AWS, Cloudflare, Terraform.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#0B1220;
+  --surface:#111B2C;
+  --line:#22314A;
+  --text:#DBE4F2;
+  --muted:#7C8CA6;
+  --signal:#FFB020;
+  --rail:216px;
+  --maxw:820px;
+  --display:"IBM Plex Sans Condensed",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--void);
+  color:var(--text);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(circle at 1px 1px, rgba(124,140,166,.14) 1px, transparent 0);
+  background-size:28px 28px;
+}
+a{color:inherit}
+::selection{background:var(--signal);color:var(--void)}
+
+/* ---------- route rail (nav + scroll progress in one device) ---------- */
+.rail{
+  position:fixed; inset:0 auto 0 0; width:var(--rail);
+  padding:44px 0 44px 40px;
+  display:flex; flex-direction:column; justify-content:center;
+  z-index:20;
+}
+.rail__track{position:relative; padding-left:22px}
+.rail__track::before{
+  content:""; position:absolute; left:5px; top:6px; bottom:6px;
+  width:1px; background:var(--line);
+}
+.rail__fill{
+  position:absolute; left:5px; top:6px; width:1px; height:0;
+  background:var(--signal); transition:height .25s linear;
+}
+.hop{
+  position:relative; display:block; padding:9px 0;
+  font-family:var(--mono); font-size:12px; letter-spacing:.06em;
+  color:var(--muted); text-decoration:none; transition:color .2s;
+}
+.hop::before{
+  content:""; position:absolute; left:-22px; top:50%; transform:translateY(-50%);
+  width:11px; height:11px; border-radius:50%;
+  background:var(--void); border:1px solid var(--line); transition:.2s;
+}
+.hop:hover{color:var(--text)}
+.hop.is-active{color:var(--signal)}
+.hop.is-active::before{border-color:var(--signal); background:var(--signal); box-shadow:0 0 0 4px rgba(255,176,32,.13)}
+.hop:focus-visible{outline:2px solid var(--signal); outline-offset:4px}
+
+.railbar{display:none}
+
+/* ---------- layout ---------- */
+main{margin-left:var(--rail); padding:0 48px}
+.wrap{max-width:var(--maxw); margin:0 auto}
+section{padding:104px 0; border-bottom:1px solid var(--line)}
+section:last-of-type{border-bottom:0}
+#edge{padding-top:120px; border-bottom:1px solid var(--line)}
+
+.eyebrow{
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--muted); margin:0 0 26px;
+  display:flex; align-items:center; gap:12px;
+}
+.eyebrow::after{content:""; flex:1; height:1px; background:var(--line)}
+.eyebrow b{color:var(--signal); font-weight:500}
+
+h2{
+  font-family:var(--display); font-weight:700; font-size:clamp(30px,4.4vw,44px);
+  line-height:1.05; letter-spacing:-.015em; margin:0 0 22px; text-transform:uppercase;
+}
+h3{font-family:var(--display); font-weight:600; font-size:20px; letter-spacing:.01em; margin:0 0 8px}
+p{margin:0 0 16px; color:#C4D0E2; max-width:62ch}
+p strong{color:var(--text); font-weight:500}
+
+/* ---------- hero ---------- */
+.hero{display:flex; gap:38px; align-items:flex-start; flex-wrap:wrap}
+.hero__id{flex:1 1 380px; min-width:0}
+.status{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--mono); font-size:11.5px; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--muted); margin-bottom:22px;
+}
+.lamp{width:7px; height:7px; border-radius:50%; background:var(--signal); animation:pulse 2.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.28}}
+
+h1{
+  font-family:var(--display); font-weight:700; text-transform:uppercase;
+  font-size:clamp(46px,9vw,88px); line-height:.92; letter-spacing:-.025em; margin:0;
+}
+h1 .surname{color:var(--muted)}
+.tagline{
+  font-family:var(--mono); font-size:14px; color:var(--signal);
+  margin:18px 0 30px; letter-spacing:.01em;
+}
+
+.record{
+  border:1px solid var(--line); background:rgba(17,27,44,.72);
+  padding:20px 22px; margin:0 0 30px; max-width:520px;
+}
+.record dl{display:grid; grid-template-columns:88px 1fr; gap:9px 18px; margin:0;
+  font-family:var(--mono); font-size:13px}
+.record dt{color:var(--muted); letter-spacing:.05em}
+.record dd{margin:0; color:var(--text)}
+
+.actions{display:flex; gap:12px; flex-wrap:wrap}
+.btn{
+  font-family:var(--mono); font-size:13px; letter-spacing:.04em;
+  padding:11px 20px; text-decoration:none; border:1px solid var(--line);
+  color:var(--text); transition:.18s;
+}
+.btn:hover{border-color:var(--signal); color:var(--signal)}
+.btn--solid{background:var(--signal); border-color:var(--signal); color:var(--void); font-weight:500}
+.btn--solid:hover{background:transparent; color:var(--signal)}
+.btn:focus-visible{outline:2px solid var(--signal); outline-offset:3px}
+
+.portrait{
+  flex:0 0 154px; width:154px; height:186px; position:relative;
+  border:1px solid var(--line); overflow:hidden; background:var(--surface);
+  display:grid; place-items:center;
+}
+.portrait img{width:100%; height:100%; object-fit:cover; display:block}
+.portrait__ph{font-family:var(--display); font-size:52px; color:var(--line); font-weight:700}
+.portrait::after{
+  content:"IMG"; position:absolute; bottom:7px; right:9px;
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; color:var(--muted);
+}
+
+/* ---------- stack ---------- */
+.stack{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line)}
+.stack__cell{background:var(--void); padding:20px 22px}
+.stack__cell h4{
+  font-family:var(--mono); font-size:11px; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--signal); margin:0 0 12px; font-weight:500;
+}
+.stack__cell ul{margin:0; padding:0; list-style:none; font-size:14.5px; color:#C4D0E2}
+.stack__cell li{padding:2.5px 0}
+
+/* ---------- work ---------- */
+.job{display:grid; grid-template-columns:132px 1fr; gap:26px; padding:26px 0; border-top:1px solid var(--line)}
+.job:first-of-type{border-top:0; padding-top:6px}
+.job__meta{font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:.04em; padding-top:5px}
+.job ul{margin:10px 0 0; padding-left:17px; color:#C4D0E2; font-size:15px}
+.job li{padding:3px 0}
+.job li::marker{color:var(--signal)}
+.tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:14px}
+.tag{font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:var(--muted);
+  border:1px solid var(--line); padding:3px 9px}
+
+/* ---------- contact ---------- */
+.contact-lead{font-family:var(--display); font-size:clamp(26px,4vw,38px); font-weight:600;
+  line-height:1.15; margin:0 0 26px; max-width:16ch}
+footer{margin-left:var(--rail); padding:26px 48px 40px;
+  font-family:var(--mono); font-size:11.5px; color:var(--muted); letter-spacing:.05em;
+  border-top:1px solid var(--line)}
+footer .wrap{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+
+/* ---------- reveal ---------- */
+.reveal{opacity:0; transform:translateY(14px); transition:opacity .55s ease, transform .55s ease}
+.reveal.is-in{opacity:1; transform:none}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .rail{display:none}
+  .railbar{
+    display:block; position:fixed; top:0; left:0; right:0; height:2px;
+    background:var(--line); z-index:30;
+  }
+  .railbar span{display:block; height:100%; width:0; background:var(--signal); transition:width .12s linear}
+  main,footer{margin-left:0}
+  main{padding:0 22px}
+  footer{padding:24px 22px 36px}
+  section{padding:74px 0}
+  #edge{padding-top:64px}
+  .job{grid-template-columns:1fr; gap:8px}
+  .portrait{flex:0 0 106px; width:106px; height:128px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none !important; transition:none !important}
+  .reveal{opacity:1; transform:none}
+}
+</style>
+</head>
+<body>
+
+<div class="railbar" aria-hidden="true"><span id="bar"></span></div>
+
+<nav class="rail" aria-label="Sections">
+  <div class="rail__track">
+    <div class="rail__fill" id="fill" aria-hidden="true"></div>
+    <a class="hop" href="#edge">01 · edge</a>
+    <a class="hop" href="#about">02 · about</a>
+    <a class="hop" href="#stack">03 · stack</a>
+    <a class="hop" href="#work">04 · work</a>
+    <a class="hop" href="#path">05 · path</a>
+    <a class="hop" href="#contact">06 · contact</a>
+  </div>
+</nav>
+
+<main>
+<div class="wrap">
+
+  <!-- ================= HERO ================= -->
+  <section id="edge">
+    <div class="hero">
+      <div class="hero__id">
+        <div class="status"><span class="lamp"></span> available for interesting infrastructure</div>
+        <h1>Arabo<br><span class="surname">Markarian</span></h1>
+        <p class="tagline">DevOps / TechOps Engineer — I keep busy sites fast, cheap, and boring.</p>
+
+        <div class="record">
+          <dl>
+            <dt>role</dt><dd>DevOps / TechOps Engineer</dd>
+            <dt>based</dt><dd>Yerevan, Armenia</dd>
+            <dt>runs on</dt><dd>AWS · Cloudflare · Terraform</dd>
+            <dt>scale</dt><dd>Multi-property publishing, millions of monthly readers</dd>
+            <dt>focus</dt><dd>Edge, cost, reliability</dd>
+          </dl>
+        </div>
+
+        <div class="actions">
+          <a class="btn btn--solid" href="#work">See the work</a>
+          <a class="btn" href="#contact">Get in touch</a>
+        </div>
+      </div>
+
+      <div class="portrait">
+        <!-- Swap this for: <img src="me.jpg" alt="Arabo Markarian"> -->
+        <span class="portrait__ph">AM</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about" class="reveal">
+    <p class="eyebrow"><b>hop 02</b> about</p>
+    <h2>Infrastructure that stops being interesting</h2>
+    <p>I run cloud and edge infrastructure for a portfolio of high-traffic publishing and fintech-adjacent web properties — the kind where a bad WAF rule costs traffic by lunchtime and a mis-sized task definition costs money all month.</p>
+    <p>Most of my work sits in three places: <strong>the edge</strong>, where Cloudflare rules decide who gets served and how fast; <strong>the pipeline</strong>, where changes ship through Terraform and GitHub Actions instead of a console; and <strong>the bill</strong>, where right-sizing and observability turn guesswork into a number someone can act on.</p>
+    <p>I like the unglamorous parts: least-privilege IAM, backup jobs that actually restore, migrations planned far enough ahead that nobody notices them happening.</p>
+  </section>
+
+  <!-- ================= STACK ================= -->
+  <section id="stack" class="reveal">
+    <p class="eyebrow"><b>hop 03</b> stack</p>
+    <h2>What I work with</h2>
+    <div class="stack">
+      <div class="stack__cell">
+        <h4>Cloud</h4>
+        <ul><li>AWS — ECS Fargate, RDS, EFS, ALB</li><li>Lambda, EventBridge, IAM</li><li>AWS Organizations, StackSets</li></ul>
+      </div>
+      <div class="stack__cell">
+        <h4>Edge &amp; Network</h4>
+        <ul><li>Cloudflare WAF &amp; Bot Management</li><li>Workers, Pages, DNS</li><li>Turnstile, caching strategy</li></ul>
+      </div>
+      <div class="stack__cell">
+        <h4>Infrastructure as Code</h4>
+        <ul><li>Terraform</li><li>GitHub Actions</li><li>Docker</li></ul>
+      </div>
+      <div class="stack__cell">
+        <h4>Observability</h4>
+        <ul><li>Datadog — APM, RUM, Cloud Cost</li><li>Log pipelines &amp; drains</li><li>Alerting and on-call runbooks</li></ul>
+      </div>
+      <div class="stack__cell">
+        <h4>Data &amp; Platforms</h4>
+        <ul><li>MySQL / MariaDB tuning</li><li>WordPress at scale, WP-CLI</li><li>Vercel, Supabase, Kinsta</li></ul>
+      </div>
+      <div class="stack__cell">
+        <h4>Automation &amp; Security</h4>
+        <ul><li>Python, Bash</li><li>n8n workflow automation</li><li>Cloud posture management, IAM audits</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= WORK ================= -->
+  <section id="work" class="reveal">
+    <p class="eyebrow"><b>hop 04</b> work</p>
+    <h2>Selected work</h2>
+
+    <div class="job">
+      <div class="job__meta">01</div>
+      <div>
+        <h3>Multi-account cost &amp; observability platform</h3>
+        <p>Built a single pane of glass across a fragmented AWS estate: Cloud Cost Management rolled out org-wide via StackSets, log drains from the hosting platform, and frontend RUM instrumented with named business events — so product questions get answered without a ticket.</p>
+        <div class="tags"><span class="tag">Datadog</span><span class="tag">AWS Organizations</span><span class="tag">StackSets</span><span class="tag">RUM</span></div>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job__meta">02</div>
+      <div>
+        <h3>Traffic-spike readiness for a national platform</h3>
+        <p>Prepared a high-traffic annual event: database engine migration and config porting, connection and thread-pool tuning, PHP-FPM pools moved from on-demand to static across five tenants, and nginx tuned per vhost. Handled live incident response during the window, including a connection exhaustion caused by one unbounded query.</p>
+        <div class="tags"><span class="tag">MariaDB</span><span class="tag">PHP-FPM</span><span class="tag">nginx</span><span class="tag">Incident response</span></div>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job__meta">03</div>
+      <div>
+        <h3>IAM least-privilege remediation</h3>
+        <p>Replaced blanket administrator access on shared automation roles with scoped policies derived from what the jobs actually do — database backups and storage sync across several projects — without breaking a single pipeline.</p>
+        <div class="tags"><span class="tag">AWS IAM</span><span class="tag">Terraform</span><span class="tag">Security</span></div>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job__meta">04</div>
+      <div>
+        <h3>Edge policy and crawler strategy</h3>
+        <p>Tuned WAF and bot rules so the crawlers that matter get through and the ones that don't get dropped, tracked down a Worker bug returning stale responses to browsers, and rebuilt caching behaviour across the properties.</p>
+        <div class="tags"><span class="tag">Cloudflare WAF</span><span class="tag">Workers</span><span class="tag">Caching</span></div>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job__meta">05</div>
+      <div>
+        <h3>Admin data sync to a single source of truth</h3>
+        <p>A Python service, deployed with Terraform on Lambda and scheduled with EventBridge, that pulls seat and usage data from several AI vendor admin APIs into one Notion workspace — so licence spend is visible without three logins.</p>
+        <div class="tags"><span class="tag">Python</span><span class="tag">Lambda</span><span class="tag">Terraform</span><span class="tag">Notion API</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PATH ================= -->
+  <section id="path" class="reveal">
+    <p class="eyebrow"><b>hop 05</b> path</p>
+    <h2>Experience</h2>
+
+    <div class="job">
+      <div class="job__meta">20XX — now</div>
+      <div>
+        <h3>Find.co</h3>
+        <p style="color:var(--muted); font-family:var(--mono); font-size:13px; margin:0 0 6px">DevOps / TechOps Engineer</p>
+        <ul>
+          <li>Own cloud and edge infrastructure for a portfolio of publishing properties on AWS and Cloudflare.</li>
+          <li>Run containerised workloads on ECS Fargate with Terraform-managed infrastructure and CI/CD via GitHub Actions.</li>
+          <li>Lead database lifecycle work, including planned engine upgrades across dev, staging, and production.</li>
+          <li>Administer identity, access, and tooling for the engineering organisation.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job__meta">20XX — 20XX</div>
+      <div>
+        <h3>Previous role</h3>
+        <p style="color:var(--muted); font-family:var(--mono); font-size:13px; margin:0 0 6px">Job title</p>
+        <ul>
+          <li>Replace with two or three lines, each with a number in it.</li>
+          <li>What you owned, what changed, how much.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact" class="reveal">
+    <p class="eyebrow"><b>hop 06</b> contact</p>
+    <p class="contact-lead">Got infrastructure that keeps waking you up?</p>
+    <p>Open to consulting, collaboration, or a conversation about edge caching that goes on too long.</p>
+    <div class="actions">
+      <a class="btn btn--solid" href="mailto:arabo@arabo.dev">arabo@arabo.dev</a>
+      <a class="btn" href="https://linkedin.com/in/yourhandle">LinkedIn</a>
+      <a class="btn" href="https://github.com/yourhandle">GitHub</a>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Arabo Markarian · arabo.dev</span>
+    <span>Yerevan, AM</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var hops = Array.prototype.slice.call(document.querySelectorAll('.hop'));
+  var fill = document.getElementById('fill');
+  var bar  = document.getElementById('bar');
+  var sections = hops.map(function(h){ return document.querySelector(h.getAttribute('href')); });
+
+  function onScroll(){
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+    if (fill) fill.style.height = (pct * 100) + '%';
+    if (bar)  bar.style.width   = (pct * 100) + '%';
+
+    var mid = window.scrollY + window.innerHeight * 0.35;
+    var idx = 0;
+    sections.forEach(function(s, i){ if (s && s.offsetTop <= mid) idx = i; });
+    hops.forEach(function(h, i){ h.classList.toggle('is-active', i === idx); });
+  }
+
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  onScroll();
+
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); }
+      });
+    }, {threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('is-in'); });
+  }
+})();
+</script>
+</body>
+</html>
