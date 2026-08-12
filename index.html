@@ -172,6 +172,21 @@ h1 .surname{color:var(--muted)}
 .stack__cell ul{margin:0; padding:0; list-style:none; font-size:14.5px; color:#C4D0E2}
 .stack__cell li{padding:2.5px 0}
 
+/* ---------- certs ---------- */
+.certs{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line)}
+.cert{
+  background:var(--surface); padding:22px; display:flex; gap:18px; align-items:center;
+  text-decoration:none; transition:background .18s;
+}
+.cert:hover{background:var(--void)}
+.cert:hover .cert__verify{color:var(--signal)}
+.cert:focus-visible{outline:2px solid var(--signal); outline-offset:-2px}
+.cert__badge{flex:0 0 64px; width:64px; height:64px; object-fit:contain}
+.cert__body{display:flex; flex-direction:column; gap:4px; min-width:0}
+.cert__name{font-family:var(--display); font-weight:600; font-size:15.5px; color:var(--text); line-height:1.25}
+.cert__issuer{font-family:var(--mono); font-size:11px; letter-spacing:.03em; color:var(--muted)}
+.cert__verify{font-family:var(--mono); font-size:11.5px; letter-spacing:.04em; color:var(--muted); margin-top:6px; transition:color .18s}
+
 /* ---------- work ---------- */
 .job{display:grid; grid-template-columns:132px 1fr; gap:26px; padding:26px 0; border-top:1px solid var(--line)}
 .job:first-of-type{border-top:0; padding-top:6px}
@@ -229,9 +244,10 @@ footer .wrap{display:flex; justify-content:space-between; gap:16px; flex-wrap:wr
     <a class="hop" href="#edge">01 · edge</a>
     <a class="hop" href="#about">02 · about</a>
     <a class="hop" href="#stack">03 · stack</a>
-    <a class="hop" href="#work">04 · work</a>
-    <a class="hop" href="#path">05 · path</a>
-    <a class="hop" href="#contact">06 · contact</a>
+    <a class="hop" href="#certs">04 · certs</a>
+    <a class="hop" href="#work">05 · work</a>
+    <a class="hop" href="#path">06 · path</a>
+    <a class="hop" href="#contact">07 · contact</a>
   </div>
 </nav>
 
@@ -312,9 +328,57 @@ footer .wrap{display:flex; justify-content:space-between; gap:16px; flex-wrap:wr
     </div>
   </section>
 
+  <!-- ================= CERTS ================= -->
+  <section id="certs" class="reveal">
+    <p class="eyebrow"><b>hop 04</b> certs</p>
+    <h2>Certifications</h2>
+    <div class="certs">
+      <a class="cert" href="https://www.credly.com/badges/9ecffbd5-b8a4-402f-a056-219d9ec96348/linked_in_profile" target="_blank" rel="noopener">
+        <img class="cert__badge" src="https://images.credly.com/size/340x340/images/0e284c3f-5164-4b21-8660-0d84737941bc/image.png" alt="AWS Certified Solutions Architect – Associate badge" width="88" height="88" loading="lazy">
+        <span class="cert__body">
+          <span class="cert__name">AWS Certified Solutions Architect – Associate</span>
+          <span class="cert__issuer">Amazon Web Services Training and Certification</span>
+          <span class="cert__verify">Verify on Credly →</span>
+        </span>
+      </a>
+      <a class="cert" href="https://www.credly.com/badges/5d3aa44b-c2cc-4d1c-a6b9-3d6b038d3a9d/linked_in_profile" target="_blank" rel="noopener">
+        <img class="cert__badge" src="https://images.credly.com/size/340x340/images/f0d3fbb9-bfa7-4017-9989-7bde8eaf42b1/image.png" alt="AWS Certified SysOps Administrator – Associate badge" width="88" height="88" loading="lazy">
+        <span class="cert__body">
+          <span class="cert__name">AWS Certified SysOps Administrator – Associate</span>
+          <span class="cert__issuer">Amazon Web Services Training and Certification</span>
+          <span class="cert__verify">Verify on Credly →</span>
+        </span>
+      </a>
+      <a class="cert" href="https://www.credly.com/badges/178ea193-25c2-4c1a-b74f-9dc413181b1e/linked_in_profile" target="_blank" rel="noopener">
+        <img class="cert__badge" src="https://images.credly.com/size/340x340/images/8f006312-3154-45bf-a845-4a043641e83c/blob" alt="AWS Partner: Technical Accredited - Training Badge" width="88" height="88" loading="lazy">
+        <span class="cert__body">
+          <span class="cert__name">AWS Partner: Technical Accredited – Training</span>
+          <span class="cert__issuer">Amazon Web Services Training and Certification</span>
+          <span class="cert__verify">Verify on Credly →</span>
+        </span>
+      </a>
+      <a class="cert" href="https://www.credly.com/badges/6777cf2c-d9e6-48b6-b01a-0ae941664c0f/linked_in_profile" target="_blank" rel="noopener">
+        <img class="cert__badge" src="https://images.credly.com/size/340x340/images/46ea4542-72a8-46a1-8d68-b72c4ca50820/blob" alt="AWS Partner: Sales Accredited - Training Badge" width="88" height="88" loading="lazy">
+        <span class="cert__body">
+          <span class="cert__name">AWS Partner: Sales Accreditation</span>
+          <span class="cert__issuer">Amazon Web Services Training and Certification</span>
+          <span class="cert__verify">Verify on Credly →</span>
+        </span>
+      </a>
+      <a class="cert" href="https://www.credly.com/badges/885d0e64-cfb2-40b2-afec-f03925a7d988/linked_in_profile" target="_blank" rel="noopener">
+        <img class="cert__badge" src="https://images.credly.com/size/340x340/images/1ba189ae-4afb-4c3b-ae89-f3da3c054f05/blob" alt="AWS Partner: Cloud Economics Essentials - Training Badge" width="88" height="88" loading="lazy">
+        <span class="cert__body">
+          <span class="cert__name">AWS Partner: Cloud Economics Essentials</span>
+          <span class="cert__issuer">Amazon Web Services Training and Certification</span>
+          <span class="cert__verify">Verify on Credly →</span>
+        </span>
+      </a>
+    </div>
+  </section>
+
   <!-- ================= WORK ================= -->
   <section id="work" class="reveal">
-    <p class="eyebrow"><b>hop 04</b> work</p>
+    <p class="eyebrow"><b>hop 05</b> work</p>
     <h2>Selected work</h2>
 
     <div class="job">
@@ -365,7 +429,7 @@ footer .wrap{display:flex; justify-content:space-between; gap:16px; flex-wrap:wr
 
   <!-- ================= PATH ================= -->
   <section id="path" class="reveal">
-    <p class="eyebrow"><b>hop 05</b> path</p>
+    <p class="eyebrow"><b>hop 06</b> path</p>
     <h2>Experience</h2>
 
     <div class="job">
@@ -397,7 +461,7 @@ footer .wrap{display:flex; justify-content:space-between; gap:16px; flex-wrap:wr
 
   <!-- ================= CONTACT ================= -->
   <section id="contact" class="reveal">
-    <p class="eyebrow"><b>hop 06</b> contact</p>
+    <p class="eyebrow"><b>hop 07</b> contact</p>
     <p class="contact-lead">Got infrastructure that keeps waking you up?</p>
     <p>Open to consulting, collaboration, or a conversation about edge caching that goes on too long.</p>
     <div class="actions">
