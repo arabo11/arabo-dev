@@ -47,328 +47,412 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@600;700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
 :root{
-  --void:#0B1220;
-  --surface:#111B2C;
-  --line:#22314A;
-  --text:#DBE4F2;
-  --muted:#7C8CA6;
-  --signal:#FFB020;
-  --rail:216px;
-  --maxw:820px;
-  --display:"IBM Plex Sans Condensed",system-ui,sans-serif;
-  --body:"IBM Plex Sans",system-ui,sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --bg:#06080f;
+  --bg2:#0b0e19;
+  --card:#0f1320;
+  --card-h:#141828;
+  --teal:#00d4aa;
+  --teal-dim:rgba(0,212,170,.10);
+  --teal-bdr:rgba(0,212,170,.25);
+  --purple:#818cf8;
+  --text:#eef2f9;
+  --text-sub:#8892a4;
+  --text-muted:#3d4557;
+  --border:rgba(255,255,255,.07);
+  --border-h:rgba(255,255,255,.13);
+  --nav-h:64px;
+  --r:12px;
+  --ease:cubic-bezier(.4,0,.2,1);
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --sans:'Inter',system-ui,-apple-system,sans-serif;
 }
 
-*{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  margin:0;
-  background:var(--void);
-  color:var(--text);
-  font-family:var(--body);
-  font-size:16px;
-  line-height:1.65;
-  -webkit-font-smoothing:antialiased;
-  background-image:radial-gradient(circle at 1px 1px, rgba(124,140,166,.14) 1px, transparent 0);
-  background-size:28px 28px;
-}
-a{color:inherit}
-::selection{background:var(--signal);color:var(--void)}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+ul{list-style:none}
+img{max-width:100%}
 
-/* ---------- route rail (nav + scroll progress in one device) ---------- */
-.rail{
-  position:fixed; inset:0 auto 0 0; width:var(--rail);
-  padding:44px 0 44px 40px;
-  display:flex; flex-direction:column; justify-content:center;
-  z-index:20;
-}
-.rail__track{position:relative; padding-left:22px}
-.rail__track::before{
-  content:""; position:absolute; left:5px; top:6px; bottom:6px;
-  width:1px; background:var(--line);
-}
-.rail__fill{
-  position:absolute; left:5px; top:6px; width:1px; height:0;
-  background:var(--signal); transition:height .25s linear;
-}
-.hop{
-  position:relative; display:block; padding:9px 0;
-  font-family:var(--mono); font-size:12px; letter-spacing:.06em;
-  color:var(--muted); text-decoration:none; transition:color .2s;
-}
-.hop::before{
-  content:""; position:absolute; left:-22px; top:50%; transform:translateY(-50%);
-  width:11px; height:11px; border-radius:50%;
-  background:var(--void); border:1px solid var(--line); transition:.2s;
-}
-.hop:hover{color:var(--text)}
-.hop.is-active{color:var(--signal)}
-.hop.is-active::before{border-color:var(--signal); background:var(--signal); box-shadow:0 0 0 4px rgba(255,176,32,.13)}
-.hop:focus-visible{outline:2px solid var(--signal); outline-offset:4px}
-
-.railbar{display:none}
-
-/* ---------- layout ---------- */
-main{margin-left:var(--rail); padding:0 48px}
-.wrap{max-width:var(--maxw); margin:0 auto}
-section{padding:104px 0; border-bottom:1px solid var(--line)}
-section:last-of-type{border-bottom:0}
-#edge{padding-top:120px; border-bottom:1px solid var(--line)}
-
-.eyebrow{
-  font-family:var(--mono); font-size:11.5px; letter-spacing:.16em;
-  text-transform:uppercase; color:var(--muted); margin:0 0 26px;
-  display:flex; align-items:center; gap:12px;
-}
-.eyebrow::after{content:""; flex:1; height:1px; background:var(--line)}
-.eyebrow b{color:var(--signal); font-weight:500}
-
-h2{
-  font-family:var(--display); font-weight:700; font-size:clamp(30px,4.4vw,44px);
-  line-height:1.05; letter-spacing:-.015em; margin:0 0 22px; text-transform:uppercase;
-}
-h3{font-family:var(--display); font-weight:600; font-size:20px; letter-spacing:.01em; margin:0 0 8px}
-p{margin:0 0 16px; color:#C4D0E2; max-width:62ch}
-p strong{color:var(--text); font-weight:500}
-
-/* ---------- hero ---------- */
-.hero{display:flex; gap:38px; align-items:flex-start; flex-wrap:wrap}
-.hero__id{flex:1 1 380px; min-width:0}
-.status{
-  display:inline-flex; align-items:center; gap:9px;
-  font-family:var(--mono); font-size:11.5px; letter-spacing:.13em;
-  text-transform:uppercase; color:var(--muted); margin-bottom:22px;
-}
-.lamp{width:7px; height:7px; border-radius:50%; background:var(--signal); animation:pulse 2.6s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.28}}
-
-h1{
-  font-family:var(--display); font-weight:700; text-transform:uppercase;
-  font-size:clamp(46px,9vw,88px); line-height:.92; letter-spacing:-.025em; margin:0;
-}
-h1 .surname{color:var(--muted)}
-.tagline{
-  font-family:var(--mono); font-size:14px; color:var(--signal);
-  margin:18px 0 30px; letter-spacing:.01em;
-}
-
-.record{
-  border:1px solid var(--line); background:rgba(17,27,44,.72);
-  padding:20px 22px; margin:0 0 30px; max-width:520px;
-}
-.record dl{display:grid; grid-template-columns:88px 1fr; gap:9px 18px; margin:0;
-  font-family:var(--mono); font-size:13px}
-.record dt{color:var(--muted); letter-spacing:.05em}
-.record dd{margin:0; color:var(--text)}
-
-.actions{display:flex; gap:12px; flex-wrap:wrap}
-.btn{
-  font-family:var(--mono); font-size:13px; letter-spacing:.04em;
-  padding:11px 20px; text-decoration:none; border:1px solid var(--line);
-  color:var(--text); transition:.18s;
-}
-.btn:hover{border-color:var(--signal); color:var(--signal)}
-.btn--solid{background:var(--signal); border-color:var(--signal); color:var(--void); font-weight:500}
-.btn--solid:hover{background:transparent; color:var(--signal)}
-.btn:focus-visible{outline:2px solid var(--signal); outline-offset:3px}
-
-.portrait{
-  flex:0 0 178px; width:178px; height:215px; position:relative;
-  border:1px solid var(--line); overflow:hidden; background:var(--surface);
-  display:grid; place-items:center;
-}
-.portrait picture,.portrait img{display:block; width:100%; height:100%}
-.portrait img{object-fit:cover; object-position:50% 22%;
-  filter:saturate(.82) contrast(1.04) brightness(.94);}
-.portrait::before{
-  content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
-  background:linear-gradient(180deg, rgba(11,18,32,0) 45%, rgba(11,18,32,.55) 100%);
-  mix-blend-mode:multiply;
-}
-.portrait__ph{font-family:var(--display); font-size:52px; color:var(--line); font-weight:700}
-.portrait::after{
-  content:"AM"; position:absolute; bottom:7px; right:9px; z-index:2;
-  font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; color:var(--text);
-  opacity:.85;
-}
-
-/* ---------- stack ---------- */
-.stack{display:grid; grid-template-columns:repeat(auto-fit,minmax(238px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line)}
-.stack__cell{background:var(--void); padding:20px 22px}
-.stack__cell h4{
-  font-family:var(--mono); font-size:11px; letter-spacing:.15em; text-transform:uppercase;
-  color:var(--signal); margin:0 0 12px; font-weight:500;
-}
-.stack__cell ul{margin:0; padding:0; list-style:none; font-size:14.5px; color:#C4D0E2}
-.stack__cell li{padding:2.5px 0}
-
-/* ---------- certs ---------- */
-.certs{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line)}
-.cert{
-  background:var(--surface); padding:22px; display:flex; gap:18px; align-items:center;
-  text-decoration:none; transition:background .18s;
-}
-.cert:hover{background:var(--void)}
-.cert:hover .cert__verify{color:var(--signal)}
-.cert:focus-visible{outline:2px solid var(--signal); outline-offset:-2px}
-.cert__badge{flex:0 0 64px; width:64px; height:64px; object-fit:contain}
-.cert__body{display:flex; flex-direction:column; gap:4px; min-width:0}
-.cert__name{font-family:var(--display); font-weight:600; font-size:15.5px; color:var(--text); line-height:1.25}
-.cert__issuer{font-family:var(--mono); font-size:11px; letter-spacing:.03em; color:var(--muted)}
-.cert__verify{font-family:var(--mono); font-size:11.5px; letter-spacing:.04em; color:var(--muted); margin-top:6px; transition:color .18s}
-
-/* ---------- work ---------- */
-.job{display:grid; grid-template-columns:132px 1fr; gap:26px; padding:26px 0; border-top:1px solid var(--line)}
-.job:first-of-type{border-top:0; padding-top:6px}
-.job__meta{font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:.04em; padding-top:5px}
-.job ul{margin:10px 0 0; padding-left:17px; color:#C4D0E2; font-size:15px}
-.job li{padding:3px 0}
-.job li::marker{color:var(--signal)}
-.tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:14px}
-.tag{font-family:var(--mono); font-size:11px; letter-spacing:.04em; color:var(--muted);
-  border:1px solid var(--line); padding:3px 9px}
-
-/* ---------- contact ---------- */
-.contact-lead{font-family:var(--display); font-size:clamp(26px,4vw,38px); font-weight:600;
-  line-height:1.15; margin:0 0 26px; max-width:16ch}
-footer{margin-left:var(--rail); padding:26px 48px 40px;
-  font-family:var(--mono); font-size:11.5px; color:var(--muted); letter-spacing:.05em;
-  border-top:1px solid var(--line)}
-footer .wrap{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap}
+.container{max-width:1100px;margin:0 auto;padding:0 32px}
+section{padding:108px 0}
 
 /* ---------- reveal ---------- */
-.reveal{opacity:0; transform:translateY(14px); transition:opacity .55s ease, transform .55s ease}
-.reveal.is-in{opacity:1; transform:none}
+.fade-in{opacity:0;transform:translateY(30px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
+.fade-in.visible{opacity:1;transform:none}
+
+/* ---------- section eyebrow ---------- */
+.section-eyebrow{display:flex;align-items:center;gap:12px;font-size:.8rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--text-sub);margin-bottom:52px}
+.section-eyebrow::after{content:"";flex:1;max-width:120px;height:1px;background:var(--border)}
+.eyebrow-num{font-family:var(--mono);font-size:.75rem;color:var(--teal)}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:8px;font-size:.85rem;font-weight:600;transition:all .25s var(--ease);cursor:pointer}
+.btn-glow{background:var(--teal);color:#06080f}
+.btn-glow:hover{background:#00f0c0;transform:translateY(-2px);box-shadow:0 0 32px rgba(0,212,170,.4)}
+.btn-ghost{border:1.5px solid var(--teal-bdr);color:var(--teal);background:var(--teal-dim)}
+.btn-ghost:hover{border-color:var(--teal);background:rgba(0,212,170,.15);transform:translateY(-2px)}
+
+/* ---------- nav ---------- */
+#navbar{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:100;transition:background .3s,border-color .3s}
+#navbar.scrolled{background:rgba(6,8,15,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-container{max-width:1100px;margin:0 auto;padding:0 32px;height:100%;display:flex;align-items:center;justify-content:space-between}
+.nav-brand{display:flex;align-items:center;gap:9px;font-size:.95rem;font-weight:700;font-family:var(--mono);color:var(--text);letter-spacing:-.01em}
+.brand-dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal);animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 8px var(--teal)}50%{box-shadow:0 0 18px var(--teal)}}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-links a{padding:7px 15px;border-radius:7px;font-size:.85rem;font-weight:500;color:var(--text-sub);transition:color .2s,background .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--text);background:var(--border)}
+.nav-links a.active{color:var(--teal)}
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;width:32px}
+.burger span{display:block;height:2px;background:var(--text);border-radius:2px;transition:all .28s ease;transform-origin:center}
+.burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ---------- hero ---------- */
+#hero{min-height:100vh;display:flex;align-items:center;padding-top:var(--nav-h);background:var(--bg);position:relative;overflow:hidden}
+.hero-wave{position:absolute;right:0;top:0;width:55%;height:100%;pointer-events:none;z-index:0}
+.hero-content{position:relative;z-index:1;padding:60px 72px;display:flex;flex-direction:column;gap:26px;max-width:780px}
+
+.hero-social-row{display:flex;gap:18px}
+.hero-social-row a{color:var(--text-muted);transition:color .2s}
+.hero-social-row a:hover{color:var(--teal)}
+.hero-social-row svg{width:22px;height:22px}
+
+.hero-profile-row{display:flex;align-items:center;gap:48px}
+.hero-photo-wrap{flex-shrink:0;padding:5px;border-radius:50%;background:var(--teal);
+  box-shadow:0 0 0 2px var(--teal),0 0 30px rgba(0,212,170,.7),0 0 70px rgba(0,212,170,.4),0 0 120px rgba(0,212,170,.15)}
+.hero-photo-clip{width:230px;height:230px;border-radius:50%;overflow:hidden;background:var(--card)}
+.hero-photo{width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block;filter:saturate(.9) contrast(1.05)}
+
+.hero-name-block{display:flex;flex-direction:column;gap:12px;position:relative;z-index:2}
+.status{font-family:var(--mono);font-size:11.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--text-sub)}
+.lamp{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--teal);margin-right:9px;vertical-align:middle;animation:lampPulse 2.6s ease-in-out infinite}
+@keyframes lampPulse{0%,100%{opacity:1}50%{opacity:.28}}
+
+h1{font-size:clamp(2.6rem,5.5vw,5.2rem);font-weight:800;line-height:1.05;letter-spacing:-.03em;color:var(--text)}
+.hero-role{font-size:1.1rem;color:var(--text-sub);font-weight:500}
+.hero-slogan{font-size:1.1rem;color:var(--purple);font-style:italic;font-family:var(--mono)}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:6px}
+
+.hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px}
+.hero-scroll span{font-family:var(--mono);font-size:.65rem;letter-spacing:.2em;color:var(--text-muted);text-transform:uppercase}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--teal),transparent);animation:scrolldown 1.8s ease-in-out infinite}
+@keyframes scrolldown{0%{transform:scaleY(0);transform-origin:top;opacity:0}40%{transform:scaleY(1);transform-origin:top;opacity:1}80%{transform:scaleY(1);transform-origin:bottom;opacity:1}100%{transform:scaleY(0);transform-origin:bottom;opacity:0}}
+
+/* ---------- about ---------- */
+#about{background:var(--bg2)}
+.about-layout{display:grid;grid-template-columns:280px 1fr;gap:60px;align-items:start}
+.about-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:32px 24px;text-align:center;position:sticky;top:calc(var(--nav-h) + 24px)}
+.about-counters{display:flex;flex-direction:column;gap:22px}
+.counter{text-align:center}
+.count-num{font-size:3.2rem;font-weight:800;color:var(--teal);line-height:1;font-family:var(--mono)}
+.count-plus{font-size:1.9rem;color:var(--teal);font-weight:700}
+.count-label{display:block;font-size:.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-top:6px}
+.about-text p{font-size:.97rem;color:var(--text-sub);margin-bottom:18px;line-height:1.8;max-width:62ch}
+.about-text strong{color:var(--text)}
+
+/* ---------- stack ---------- */
+#stack{background:var(--bg)}
+.stack-grid{display:flex;flex-direction:column;gap:40px}
+.stack-label{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:var(--text-muted);margin-bottom:14px}
+.stack-pills{display:flex;flex-wrap:wrap;gap:10px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:8px;font-size:.875rem;font-weight:600;color:var(--c,#fff);
+  background:color-mix(in srgb,var(--c,#fff) 10%,transparent);border:1px solid color-mix(in srgb,var(--c,#fff) 25%,transparent);
+  transition:all .2s ease;cursor:default}
+.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c,#fff);flex-shrink:0}
+.pill:hover{background:color-mix(in srgb,var(--c,#fff) 18%,transparent);transform:translateY(-2px);box-shadow:0 6px 20px color-mix(in srgb,var(--c,#fff) 15%,transparent)}
+
+/* ---------- certs ---------- */
+#certs{background:var(--bg2)}
+.certs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.cert{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;display:flex;gap:16px;align-items:center;transition:border-color .2s,transform .2s}
+.cert:hover{border-color:var(--teal-bdr);transform:translateY(-3px)}
+.cert__badge{flex:0 0 56px;width:56px;height:56px;object-fit:contain}
+.cert__body{display:flex;flex-direction:column;gap:3px;min-width:0}
+.cert__name{font-size:.95rem;font-weight:700;color:var(--text);line-height:1.3}
+.cert__issuer{font-family:var(--mono);font-size:.72rem;color:var(--text-muted)}
+.cert__verify{font-family:var(--mono);font-size:.72rem;color:var(--teal);margin-top:4px}
+
+/* ---------- work ---------- */
+#work{background:var(--bg)}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.pcard{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:border-color .25s,transform .25s,box-shadow .25s}
+.pcard:hover{border-color:var(--border-h);transform:translateY(-5px);box-shadow:0 20px 48px rgba(0,0,0,.35)}
+.pcard-mesh{height:100px;background:radial-gradient(ellipse at 30% 50%,color-mix(in srgb,var(--m1) 30%,transparent),transparent 70%),
+  radial-gradient(ellipse at 80% 50%,color-mix(in srgb,var(--m2) 25%,transparent),transparent 70%),var(--card-h);border-bottom:1px solid var(--border)}
+.pcard-body{padding:22px 22px 14px;flex:1}
+.pcard-num{font-family:var(--mono);font-size:.7rem;color:var(--text-muted);display:block;margin-bottom:8px}
+.pcard-body h3{font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:10px}
+.pcard-body p{font-size:.875rem;color:var(--text-sub);line-height:1.65;margin-bottom:16px}
+.pcard-tags{display:flex;flex-wrap:wrap;gap:6px;padding:0 22px 20px}
+.pcard-tags span{font-family:var(--mono);font-size:.7rem;padding:3px 9px;border-radius:4px;background:var(--teal-dim);color:var(--teal);border:1px solid var(--teal-bdr)}
+
+/* ---------- experience / timeline ---------- */
+#experience{background:var(--bg2)}
+.timeline{display:flex;flex-direction:column;gap:0}
+.tl-item{display:grid;grid-template-columns:140px 32px 1fr;gap:0 16px;align-items:start;padding-bottom:44px}
+.tl-item:last-child{padding-bottom:0}
+.tl-left{text-align:right;padding-top:18px}
+.tl-date{font-family:var(--mono);font-size:.75rem;color:var(--teal);background:var(--teal-dim);border:1px solid var(--teal-bdr);padding:3px 8px;border-radius:4px;display:inline-block;white-space:nowrap}
+.tl-line{display:flex;flex-direction:column;align-items:center;position:relative}
+.tl-line::after{content:"";position:absolute;top:32px;bottom:-44px;width:1px;background:linear-gradient(to bottom,var(--teal-bdr),transparent);left:50%;transform:translateX(-50%)}
+.tl-item:last-child .tl-line::after{display:none}
+.tl-node{width:14px;height:14px;border-radius:50%;background:var(--teal);border:3px solid var(--bg2);box-shadow:0 0 0 2px var(--teal-bdr);margin-top:18px;flex-shrink:0}
+.tl-right{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:22px 26px;transition:border-color .2s}
+.tl-right:hover{border-color:var(--border-h)}
+.tl-right h3{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.tl-role{display:inline-block;font-size:.82rem;color:var(--teal);font-weight:600;margin-bottom:16px}
+.tl-right ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.tl-right li{font-size:.875rem;color:var(--text-sub);line-height:1.6;padding-left:16px;position:relative}
+.tl-right li::before{content:"▸";position:absolute;left:0;color:var(--teal);font-size:.7rem;top:3px}
+
+/* ---------- contact ---------- */
+#contact{background:var(--bg)}
+.contact-wrap{display:grid;grid-template-columns:1fr auto;gap:64px;align-items:center}
+.contact-text h2{font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:-.03em;color:var(--text);margin-bottom:12px}
+.contact-text p{font-size:.97rem;color:var(--text-sub);max-width:380px;line-height:1.75}
+.contact-links{display:flex;flex-direction:column;gap:14px;min-width:240px}
+.clink{display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:var(--r);background:var(--card);border:1px solid var(--border);font-size:.9rem;font-weight:500;color:var(--text-sub);transition:all .22s ease}
+.clink:hover{border-color:var(--teal-bdr);color:var(--text);background:var(--card-h);transform:translateX(4px)}
+.clink:hover svg{color:var(--teal)}
+.clink svg{color:var(--text-muted);transition:color .22s;flex-shrink:0}
+
+/* ---------- footer ---------- */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 0}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer-brand{font-family:var(--mono);font-size:.85rem;color:var(--teal)}
+.footer-note{font-size:.78rem;color:var(--text-muted)}
 
 /* ---------- responsive ---------- */
 @media (max-width:900px){
-  .rail{display:none}
-  .railbar{
-    display:block; position:fixed; top:0; left:0; right:0; height:2px;
-    background:var(--line); z-index:30;
-  }
-  .railbar span{display:block; height:100%; width:0; background:var(--signal); transition:width .12s linear}
-  main,footer{margin-left:0}
-  main{padding:0 22px}
-  footer{padding:24px 22px 36px}
-  section{padding:74px 0}
-  #edge{padding-top:64px}
-  .job{grid-template-columns:1fr; gap:8px}
-  .portrait{flex:0 0 124px; width:124px; height:150px}
+  .burger{display:flex}
+  .nav-links{position:fixed;top:var(--nav-h);left:0;right:0;background:rgba(6,8,15,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+    border-bottom:1px solid var(--border);flex-direction:column;padding:16px 24px 28px;gap:4px;opacity:0;pointer-events:none;transform:translateY(-8px);transition:opacity .25s ease,transform .25s ease}
+  .nav-links.open{opacity:1;pointer-events:all;transform:none}
+  .nav-links a{padding:11px 16px;font-size:1rem;border-radius:8px}
+
+  .hero-content{padding:48px 28px;gap:18px}
+  .hero-wave{width:80%;opacity:.5}
+  .hero-profile-row{gap:28px}
+  .hero-photo-clip{width:110px;height:110px}
+  h1{font-size:2.6rem}
+
+  .about-layout{grid-template-columns:1fr;gap:36px}
+  .about-card{position:static}
+  .about-counters{flex-direction:row;justify-content:center;gap:32px}
+
+  .contact-wrap{grid-template-columns:1fr;gap:36px}
+  .contact-links{min-width:0}
+}
+
+@media (max-width:640px){
+  section{padding:72px 0}
+  .container{padding:0 20px}
+
+  .hero-wave{display:none}
+  #hero{justify-content:center}
+  .hero-content{padding:28px 20px;align-items:center;width:100%}
+  .hero-social-row{justify-content:center}
+  .hero-profile-row{flex-direction:column;align-items:center;gap:24px}
+  .hero-photo-clip{width:190px;height:190px}
+  .hero-name-block{align-items:center;text-align:center}
+  .hero-cta{justify-content:center;flex-wrap:wrap}
+  h1{font-size:2.1rem}
+
+  .tl-item{grid-template-columns:24px 1fr;gap:0 12px}
+  .tl-left{display:none}
+  .tl-right{padding:16px 18px}
+
+  .projects-grid,.certs-grid{grid-template-columns:1fr}
+
+  .about-counters{gap:20px}
+  .count-num{font-size:2.5rem}
+
+  .contact-text h2{font-size:2rem}
+  .btn{justify-content:center}
+}
+
+@supports not (background:color-mix(in srgb,red 10%,transparent)){
+  .pill{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.15)}
 }
 
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *,*::before,*::after{animation:none !important; transition:none !important}
-  .reveal{opacity:1; transform:none}
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  .fade-in{opacity:1;transform:none}
 }
 </style>
 </head>
 <body>
 
-<div class="railbar" aria-hidden="true"><span id="bar"></span></div>
-
-<nav class="rail" aria-label="Sections">
-  <div class="rail__track">
-    <div class="rail__fill" id="fill" aria-hidden="true"></div>
-    <a class="hop" href="#edge">01 · edge</a>
-    <a class="hop" href="#about">02 · about</a>
-    <a class="hop" href="#stack">03 · stack</a>
-    <a class="hop" href="#certs">04 · certs</a>
-    <a class="hop" href="#work">05 · work</a>
-    <a class="hop" href="#path">06 · path</a>
-    <a class="hop" href="#contact">07 · contact</a>
+<!-- ================= NAV ================= -->
+<nav id="navbar">
+  <div class="nav-container">
+    <a href="#hero" class="nav-brand"><span class="brand-dot"></span>AM</a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#about">About</a></li>
+      <li><a href="#stack">Stack</a></li>
+      <li><a href="#certs">Certs</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
-<main>
-<div class="wrap">
+<!-- ================= HERO ================= -->
+<section id="hero">
+  <svg id="heroWave" class="hero-wave" viewBox="0 0 700 600" preserveAspectRatio="xMaxYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
 
-  <!-- ================= HERO ================= -->
-  <section id="edge">
-    <div class="hero">
-      <div class="hero__id">
+  <div class="hero-content">
+    <div class="hero-social-row">
+      <a href="https://github.com/arabo11" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/arabo-markarian/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <a href="mailto:arabo@arabo.dev" aria-label="Email">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+      </a>
+    </div>
+
+    <div class="hero-profile-row">
+      <div class="hero-photo-wrap">
+        <div class="hero-photo-clip">
+          <picture>
+            <source srcset="me.webp" type="image/webp">
+            <img src="me.jpg" alt="Arabo Markarian" class="hero-photo" width="420" height="507" decoding="async">
+          </picture>
+        </div>
+      </div>
+      <div class="hero-name-block">
         <div class="status"><span class="lamp"></span> available for interesting infrastructure</div>
-        <h1>Arabo<br><span class="surname">Markarian</span></h1>
-        <p class="tagline">DevOps / TechOps Engineer — I keep busy sites fast, cheap, and boring.</p>
-
-        <div class="record">
-          <dl>
-            <dt>role</dt><dd>DevOps / TechOps Engineer</dd>
-            <dt>based</dt><dd>Yerevan, Armenia</dd>
-            <dt>runs on</dt><dd>AWS · Cloudflare · WordPress . Terraform</dd>
-            <dt>scale</dt><dd>Multi-property publishing, millions of monthly readers</dd>
-            <dt>focus</dt><dd>Edge, cost, reliability</dd>
-          </dl>
-        </div>
-
-        <div class="actions">
-          <a class="btn btn--solid" href="#work">See the work</a>
-          <a class="btn" href="#contact">Get in touch</a>
+        <h1>Arabo Markarian</h1>
+        <p class="hero-role">DevOps / TechOps Engineer</p>
+        <p class="hero-slogan">"I keep busy sites fast, cheap, and boring."</p>
+        <div class="hero-cta">
+          <a href="#work" class="btn btn-glow">View My Work</a>
+          <a href="#contact" class="btn btn-ghost">Get in Touch</a>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div class="portrait">
-        <picture>
-          <source srcset="me.webp" type="image/webp">
-          <img src="me.jpg" alt="Arabo Markarian" width="420" height="507" decoding="async">
-        </picture>
+  <div class="hero-scroll">
+    <span>scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about">
+  <div class="container">
+    <div class="section-eyebrow fade-in"><span class="eyebrow-num">01.</span> About Me</div>
+    <div class="about-layout fade-in">
+      <div class="about-card">
+        <div class="about-counters">
+          <div class="counter">
+            <span class="count-num" data-target="5">0</span><span class="count-plus">+</span>
+            <span class="count-label">Years Experience</span>
+          </div>
+          <div class="counter">
+            <span class="count-num" data-target="20">0</span>
+            <span class="count-label">Core Skills</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-text">
+        <p>I run cloud and edge infrastructure for a portfolio of high-traffic publishing and fintech-adjacent web properties — the kind where a bad WAF rule costs traffic by lunchtime and a mis-sized task definition costs money all month.</p>
+        <p>Most of my work sits in three places: <strong>the edge</strong>, where Cloudflare rules decide who gets served and how fast; <strong>the pipeline</strong>, where changes ship through Terraform and GitHub Actions instead of a console; and <strong>the bill</strong>, where right-sizing and observability turn guesswork into a number someone can act on.</p>
+        <p>I like the unglamorous parts: least-privilege IAM, backup jobs that actually restore, migrations planned far enough ahead that nobody notices them happening.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ================= ABOUT ================= -->
-  <section id="about" class="reveal">
-    <p class="eyebrow"><b>hop 02</b> about</p>
-    <h2>Infrastructure that stops being interesting</h2>
-    <p>I run cloud and edge infrastructure for a portfolio of high-traffic publishing and fintech-adjacent web properties — the kind where a bad WAF rule costs traffic by lunchtime and a mis-sized task definition costs money all month.</p>
-    <p>Most of my work sits in three places: <strong>the edge</strong>, where Cloudflare rules decide who gets served and how fast; <strong>the pipeline</strong>, where changes ship through Terraform and GitHub Actions instead of a console; and <strong>the bill</strong>, where right-sizing and observability turn guesswork into a number someone can act on.</p>
-    <p>I like the unglamorous parts: least-privilege IAM, backup jobs that actually restore, migrations planned far enough ahead that nobody notices them happening.</p>
-  </section>
+<!-- ================= STACK ================= -->
+<section id="stack">
+  <div class="container">
+    <div class="section-eyebrow fade-in"><span class="eyebrow-num">02.</span> Tech Stack</div>
 
-  <!-- ================= STACK ================= -->
-  <section id="stack" class="reveal">
-    <p class="eyebrow"><b>hop 03</b> stack</p>
-    <h2>What I work with</h2>
-    <div class="stack">
-      <div class="stack__cell">
-        <h4>Cloud</h4>
-        <ul><li>AWS — ECS Fargate, RDS, EFS, ALB</li><li>Lambda, EventBridge, IAM</li><li>AWS Organizations, StackSets</li></ul>
+    <div class="stack-grid fade-in">
+      <div class="stack-group">
+        <h3 class="stack-label">Cloud</h3>
+        <div class="stack-pills">
+          <span class="pill" style="--c:#FF9900">AWS</span>
+          <span class="pill" style="--c:#FF9900">ECS Fargate</span>
+          <span class="pill" style="--c:#FF9900">Lambda</span>
+          <span class="pill" style="--c:#FF9900">IAM &amp; Organizations</span>
+        </div>
       </div>
-      <div class="stack__cell">
-        <h4>Edge &amp; Network</h4>
-        <ul><li>Cloudflare WAF &amp; Bot Management</li><li>Workers, Pages, DNS</li><li>Turnstile, caching strategy</li></ul>
+
+      <div class="stack-group">
+        <h3 class="stack-label">Edge &amp; Network</h3>
+        <div class="stack-pills">
+          <span class="pill" style="--c:#F38020">Cloudflare WAF</span>
+          <span class="pill" style="--c:#F38020">Cloudflare Workers</span>
+          <span class="pill" style="--c:#F38020">DNS &amp; Caching</span>
+        </div>
       </div>
-      <div class="stack__cell">
-        <h4>Infrastructure as Code</h4>
-        <ul><li>Terraform</li><li>GitHub Actions</li><li>Docker</li></ul>
+
+      <div class="stack-group">
+        <h3 class="stack-label">Infrastructure as Code</h3>
+        <div class="stack-pills">
+          <span class="pill" style="--c:#7B42BC">Terraform</span>
+          <span class="pill" style="--c:#2088FF">GitHub Actions</span>
+          <span class="pill" style="--c:#2496ED">Docker</span>
+        </div>
       </div>
-      <div class="stack__cell">
-        <h4>Observability</h4>
-        <ul><li>Datadog — APM, RUM, Cloud Cost</li><li>Log pipelines &amp; drains</li><li>Alerting and on-call runbooks</li></ul>
+
+      <div class="stack-group">
+        <h3 class="stack-label">Observability</h3>
+        <div class="stack-pills">
+          <span class="pill" style="--c:#632CA6">Datadog</span>
+          <span class="pill" style="--c:#632CA6">Log Pipelines</span>
+          <span class="pill" style="--c:#632CA6">On-call &amp; Alerting</span>
+        </div>
       </div>
-      <div class="stack__cell">
-        <h4>Data &amp; Platforms</h4>
-        <ul><li>MySQL / MariaDB tuning</li><li>WordPress at scale, WP-CLI</li><li>Vercel, Supabase, Kinsta</li></ul>
+
+      <div class="stack-group">
+        <h3 class="stack-label">Data &amp; Platforms</h3>
+        <div class="stack-pills">
+          <span class="pill" style="--c:#4479A1">MySQL / MariaDB</span>
+          <span class="pill" style="--c:#21759B">WordPress</span>
+          <span class="pill" style="--c:#dadada">Vercel</span>
+          <span class="pill" style="--c:#3ECF8E">Supabase</span>
+        </div>
       </div>
-      <div class="stack__cell">
-        <h4>Automation &amp; Security</h4>
-        <ul><li>Python, Bash</li><li>n8n workflow automation</li><li>Cloud posture management, IAM audits</li></ul>
+
+      <div class="stack-group">
+        <h3 class="stack-label">Automation &amp; Security</h3>
+        <div class="stack-pills">
+          <span class="pill" style="--c:#4B8BBE">Python</span>
+          <span class="pill" style="--c:#89E051">Bash</span>
+          <span class="pill" style="--c:#EA4B71">n8n</span>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ================= CERTS ================= -->
-  <section id="certs" class="reveal">
-    <p class="eyebrow"><b>hop 04</b> certs</p>
-    <h2>Certifications</h2>
-    <div class="certs">
+<!-- ================= CERTS ================= -->
+<section id="certs">
+  <div class="container">
+    <div class="section-eyebrow fade-in"><span class="eyebrow-num">03.</span> Certifications</div>
+
+    <div class="certs-grid fade-in">
       <a class="cert" href="https://www.credly.com/badges/9ecffbd5-b8a4-402f-a056-219d9ec96348/linked_in_profile" target="_blank" rel="noopener">
-        <img class="cert__badge" src="https://images.credly.com/size/340x340/images/0e284c3f-5164-4b21-8660-0d84737941bc/image.png" alt="AWS Certified Solutions Architect – Associate badge" width="88" height="88" loading="lazy">
+        <img class="cert__badge" src="https://images.credly.com/size/340x340/images/0e284c3f-5164-4b21-8660-0d84737941bc/image.png" alt="AWS Certified Solutions Architect – Associate badge" width="56" height="56" loading="lazy">
         <span class="cert__body">
           <span class="cert__name">AWS Certified Solutions Architect – Associate</span>
           <span class="cert__issuer">Amazon Web Services Training and Certification</span>
@@ -376,7 +460,7 @@ footer .wrap{display:flex; justify-content:space-between; gap:16px; flex-wrap:wr
         </span>
       </a>
       <a class="cert" href="https://www.credly.com/badges/5d3aa44b-c2cc-4d1c-a6b9-3d6b038d3a9d/linked_in_profile" target="_blank" rel="noopener">
-        <img class="cert__badge" src="https://images.credly.com/size/340x340/images/f0d3fbb9-bfa7-4017-9989-7bde8eaf42b1/image.png" alt="AWS Certified SysOps Administrator – Associate badge" width="88" height="88" loading="lazy">
+        <img class="cert__badge" src="https://images.credly.com/size/340x340/images/f0d3fbb9-bfa7-4017-9989-7bde8eaf42b1/image.png" alt="AWS Certified SysOps Administrator – Associate badge" width="56" height="56" loading="lazy">
         <span class="cert__body">
           <span class="cert__name">AWS Certified SysOps Administrator – Associate</span>
           <span class="cert__issuer">Amazon Web Services Training and Certification</span>
@@ -384,7 +468,7 @@ footer .wrap{display:flex; justify-content:space-between; gap:16px; flex-wrap:wr
         </span>
       </a>
       <a class="cert" href="https://www.credly.com/badges/178ea193-25c2-4c1a-b74f-9dc413181b1e/linked_in_profile" target="_blank" rel="noopener">
-        <img class="cert__badge" src="https://images.credly.com/size/340x340/images/8f006312-3154-45bf-a845-4a043641e83c/blob" alt="AWS Partner: Technical Accredited - Training Badge" width="88" height="88" loading="lazy">
+        <img class="cert__badge" src="https://images.credly.com/size/340x340/images/8f006312-3154-45bf-a845-4a043641e83c/blob" alt="AWS Partner: Technical Accredited - Training Badge" width="56" height="56" loading="lazy">
         <span class="cert__body">
           <span class="cert__name">AWS Partner: Technical Accredited – Training</span>
           <span class="cert__issuer">Amazon Web Services Training and Certification</span>
@@ -392,7 +476,7 @@ footer .wrap{display:flex; justify-content:space-between; gap:16px; flex-wrap:wr
         </span>
       </a>
       <a class="cert" href="https://www.credly.com/badges/6777cf2c-d9e6-48b6-b01a-0ae941664c0f/linked_in_profile" target="_blank" rel="noopener">
-        <img class="cert__badge" src="https://images.credly.com/size/340x340/images/46ea4542-72a8-46a1-8d68-b72c4ca50820/blob" alt="AWS Partner: Sales Accredited - Training Badge" width="88" height="88" loading="lazy">
+        <img class="cert__badge" src="https://images.credly.com/size/340x340/images/46ea4542-72a8-46a1-8d68-b72c4ca50820/blob" alt="AWS Partner: Sales Accredited - Training Badge" width="56" height="56" loading="lazy">
         <span class="cert__body">
           <span class="cert__name">AWS Partner: Sales Accreditation</span>
           <span class="cert__issuer">Amazon Web Services Training and Certification</span>
@@ -400,7 +484,7 @@ footer .wrap{display:flex; justify-content:space-between; gap:16px; flex-wrap:wr
         </span>
       </a>
       <a class="cert" href="https://www.credly.com/badges/885d0e64-cfb2-40b2-afec-f03925a7d988/linked_in_profile" target="_blank" rel="noopener">
-        <img class="cert__badge" src="https://images.credly.com/size/340x340/images/1ba189ae-4afb-4c3b-ae89-f3da3c054f05/blob" alt="AWS Partner: Cloud Economics Essentials - Training Badge" width="88" height="88" loading="lazy">
+        <img class="cert__badge" src="https://images.credly.com/size/340x340/images/1ba189ae-4afb-4c3b-ae89-f3da3c054f05/blob" alt="AWS Partner: Cloud Economics Essentials - Training Badge" width="56" height="56" loading="lazy">
         <span class="cert__body">
           <span class="cert__name">AWS Partner: Cloud Economics Essentials</span>
           <span class="cert__issuer">Amazon Web Services Training and Certification</span>
@@ -408,145 +492,267 @@ footer .wrap{display:flex; justify-content:space-between; gap:16px; flex-wrap:wr
         </span>
       </a>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ================= WORK ================= -->
-  <section id="work" class="reveal">
-    <p class="eyebrow"><b>hop 05</b> work</p>
-    <h2>Selected work</h2>
+<!-- ================= WORK ================= -->
+<section id="work">
+  <div class="container">
+    <div class="section-eyebrow fade-in"><span class="eyebrow-num">04.</span> Selected Work</div>
 
-    <div class="job">
-      <div class="job__meta">01</div>
-      <div>
-        <h3>Multi-account cost &amp; observability platform</h3>
-        <p>Built a single pane of glass across a fragmented AWS estate: Cloud Cost Management rolled out org-wide via StackSets, log drains from the hosting platform, and frontend RUM instrumented with named business events — so product questions get answered without a ticket.</p>
-        <div class="tags"><span class="tag">Datadog</span><span class="tag">AWS Organizations</span><span class="tag">StackSets</span><span class="tag">RUM</span></div>
+    <div class="projects-grid fade-in">
+      <article class="pcard">
+        <div class="pcard-mesh" style="--m1:#00d4aa;--m2:#818cf8"></div>
+        <div class="pcard-body">
+          <span class="pcard-num">01</span>
+          <h3>Multi-account cost &amp; observability platform</h3>
+          <p>Built a single pane of glass across a fragmented AWS estate: Cloud Cost Management rolled out org-wide via StackSets, log drains from the hosting platform, and frontend RUM instrumented with named business events — so product questions get answered without a ticket.</p>
+        </div>
+        <div class="pcard-tags"><span>Datadog</span><span>AWS Organizations</span><span>StackSets</span><span>RUM</span></div>
+      </article>
+
+      <article class="pcard">
+        <div class="pcard-mesh" style="--m1:#818cf8;--m2:#00d4aa"></div>
+        <div class="pcard-body">
+          <span class="pcard-num">02</span>
+          <h3>Traffic-spike readiness for a national platform</h3>
+          <p>Prepared a high-traffic annual event: database engine migration and config porting, connection and thread-pool tuning, PHP-FPM pools moved from on-demand to static across five tenants, and nginx tuned per vhost. Handled live incident response during the window, including a connection exhaustion caused by one unbounded query.</p>
+        </div>
+        <div class="pcard-tags"><span>MariaDB</span><span>PHP-FPM</span><span>nginx</span><span>Incident response</span></div>
+      </article>
+
+      <article class="pcard">
+        <div class="pcard-mesh" style="--m1:#00b4d8;--m2:#00d4aa"></div>
+        <div class="pcard-body">
+          <span class="pcard-num">03</span>
+          <h3>IAM least-privilege remediation</h3>
+          <p>Replaced blanket administrator access on shared automation roles with scoped policies derived from what the jobs actually do — database backups and storage sync across several projects — without breaking a single pipeline.</p>
+        </div>
+        <div class="pcard-tags"><span>AWS IAM</span><span>Terraform</span><span>Security</span></div>
+      </article>
+
+      <article class="pcard">
+        <div class="pcard-mesh" style="--m1:#818cf8;--m2:#00b4d8"></div>
+        <div class="pcard-body">
+          <span class="pcard-num">04</span>
+          <h3>Edge policy and crawler strategy</h3>
+          <p>Tuned WAF and bot rules so the crawlers that matter get through and the ones that don't get dropped, tracked down a Worker bug returning stale responses to browsers, and rebuilt caching behaviour across the properties.</p>
+        </div>
+        <div class="pcard-tags"><span>Cloudflare WAF</span><span>Workers</span><span>Caching</span></div>
+      </article>
+
+      <article class="pcard">
+        <div class="pcard-mesh" style="--m1:#00d4aa;--m2:#00b4d8"></div>
+        <div class="pcard-body">
+          <span class="pcard-num">05</span>
+          <h3>Admin data sync to a single source of truth</h3>
+          <p>A Python service, deployed with Terraform on Lambda and scheduled with EventBridge, that pulls seat and usage data from several AI vendor admin APIs into one Notion workspace — so licence spend is visible without three logins.</p>
+        </div>
+        <div class="pcard-tags"><span>Python</span><span>Lambda</span><span>Terraform</span><span>Notion API</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXPERIENCE ================= -->
+<section id="experience">
+  <div class="container">
+    <div class="section-eyebrow fade-in"><span class="eyebrow-num">05.</span> Experience</div>
+
+    <div class="timeline fade-in">
+      <div class="tl-item">
+        <div class="tl-left"><span class="tl-date">2021 — now</span></div>
+        <div class="tl-line"><div class="tl-node"></div></div>
+        <div class="tl-right">
+          <h3>Find.co</h3>
+          <span class="tl-role">DevOps / TechOps Engineer</span>
+          <ul>
+            <li>Own cloud and edge infrastructure for a portfolio of publishing properties on AWS and Cloudflare.</li>
+            <li>Run containerised workloads on ECS Fargate with Terraform-managed infrastructure and CI/CD via GitHub Actions.</li>
+            <li>Lead database lifecycle work, including planned engine upgrades across dev, staging, and production.</li>
+            <li>Administer identity, access, and tooling for the engineering organisation.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-left"><span class="tl-date">2013 — 2024</span></div>
+        <div class="tl-line"><div class="tl-node"></div></div>
+        <div class="tl-right">
+          <h3>Freelancer</h3>
+          <span class="tl-role">DevOps / System Administrator</span>
+          <ul>
+            <li>Many ambitious projects.</li>
+          </ul>
+        </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="job">
-      <div class="job__meta">02</div>
-      <div>
-        <h3>Traffic-spike readiness for a national platform</h3>
-        <p>Prepared a high-traffic annual event: database engine migration and config porting, connection and thread-pool tuning, PHP-FPM pools moved from on-demand to static across five tenants, and nginx tuned per vhost. Handled live incident response during the window, including a connection exhaustion caused by one unbounded query.</p>
-        <div class="tags"><span class="tag">MariaDB</span><span class="tag">PHP-FPM</span><span class="tag">nginx</span><span class="tag">Incident response</span></div>
+<!-- ================= CONTACT ================= -->
+<section id="contact">
+  <div class="container">
+    <div class="section-eyebrow fade-in"><span class="eyebrow-num">06.</span> Contact</div>
+    <div class="contact-wrap fade-in">
+      <div class="contact-text">
+        <h2>Let's talk.</h2>
+        <p>Open to consulting, collaboration, or a conversation about edge caching that goes on too long.</p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:arabo@arabo.dev" class="clink">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+          arabo@arabo.dev
+        </a>
+        <a href="https://www.linkedin.com/in/arabo-markarian/" target="_blank" rel="noopener noreferrer" class="clink">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <a href="https://github.com/arabo11" target="_blank" rel="noopener noreferrer" class="clink">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
       </div>
     </div>
-
-    <div class="job">
-      <div class="job__meta">03</div>
-      <div>
-        <h3>IAM least-privilege remediation</h3>
-        <p>Replaced blanket administrator access on shared automation roles with scoped policies derived from what the jobs actually do — database backups and storage sync across several projects — without breaking a single pipeline.</p>
-        <div class="tags"><span class="tag">AWS IAM</span><span class="tag">Terraform</span><span class="tag">Security</span></div>
-      </div>
-    </div>
-
-    <div class="job">
-      <div class="job__meta">04</div>
-      <div>
-        <h3>Edge policy and crawler strategy</h3>
-        <p>Tuned WAF and bot rules so the crawlers that matter get through and the ones that don't get dropped, tracked down a Worker bug returning stale responses to browsers, and rebuilt caching behaviour across the properties.</p>
-        <div class="tags"><span class="tag">Cloudflare WAF</span><span class="tag">Workers</span><span class="tag">Caching</span></div>
-      </div>
-    </div>
-
-    <div class="job">
-      <div class="job__meta">05</div>
-      <div>
-        <h3>Admin data sync to a single source of truth</h3>
-        <p>A Python service, deployed with Terraform on Lambda and scheduled with EventBridge, that pulls seat and usage data from several AI vendor admin APIs into one Notion workspace — so licence spend is visible without three logins.</p>
-        <div class="tags"><span class="tag">Python</span><span class="tag">Lambda</span><span class="tag">Terraform</span><span class="tag">Notion API</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= PATH ================= -->
-  <section id="path" class="reveal">
-    <p class="eyebrow"><b>hop 06</b> path</p>
-    <h2>Experience</h2>
-
-    <div class="job">
-      <div class="job__meta">2021 — now</div>
-      <div>
-        <h3>Find.co</h3>
-        <p style="color:var(--muted); font-family:var(--mono); font-size:13px; margin:0 0 6px">DevOps / TechOps Engineer</p>
-        <ul>
-          <li>Own cloud and edge infrastructure for a portfolio of publishing properties on AWS and Cloudflare.</li>
-          <li>Run containerised workloads on ECS Fargate with Terraform-managed infrastructure and CI/CD via GitHub Actions.</li>
-          <li>Lead database lifecycle work, including planned engine upgrades across dev, staging, and production.</li>
-          <li>Administer identity, access, and tooling for the engineering organisation.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="job">
-      <div class="job__meta">2013 — 2024</div>
-      <div>
-        <h3>Freelancer</h3>
-        <p style="color:var(--muted); font-family:var(--mono); font-size:13px; margin:0 0 6px">DevOps/System Administrator</p>
-        <ul>
-          <li>Many ambitious projects.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= CONTACT ================= -->
-  <section id="contact" class="reveal">
-    <p class="eyebrow"><b>hop 07</b> contact</p>
-    <p class="contact-lead">Got infrastructure that keeps waking you up?</p>
-    <p>Open to consulting, collaboration, or a conversation about edge caching that goes on too long.</p>
-    <div class="actions">
-      <a class="btn btn--solid" href="mailto:arabo@arabo.dev">arabo@arabo.dev</a>
-      <a class="btn" href="https://www.linkedin.com/in/arabo-markarian/">LinkedIn</a>
-      <a class="btn" href="https://github.com/arabo11">GitHub</a>
-    </div>
-  </section>
-
-</div>
-</main>
+  </div>
+</section>
 
 <footer>
-  <div class="wrap">
-    <span>Arabo Markarian · arabo.dev</span>
-    <span>Yerevan, AM</span>
+  <div class="container footer-inner">
+    <span class="footer-brand">Arabo Markarian · DevOps / TechOps</span>
+    <span class="footer-note">Yerevan, AM</span>
   </div>
 </footer>
 
 <script>
-(function(){
-  var hops = Array.prototype.slice.call(document.querySelectorAll('.hop'));
-  var fill = document.getElementById('fill');
-  var bar  = document.getElementById('bar');
-  var sections = hops.map(function(h){ return document.querySelector(h.getAttribute('href')); });
+(function initHeroWave(){
+  var svg = document.getElementById('heroWave');
+  if (!svg) return;
 
+  var COUNT = 26, SPREAD = 220;
+  for (var i = 0; i < COUNT; i++){
+    var t = i / (COUNT - 1);
+    var off = (t - 0.5) * SPREAD;
+
+    var r = Math.round(0   + 129 * t);
+    var g = Math.round(212 -  72 * t);
+    var b = Math.round(170 +  78 * t);
+    var opacity = (0.15 + 0.75 * (1 - Math.pow((t - 0.5) * 2, 2))).toFixed(2);
+
+    var x1 = 700, y1 = 80  + off;
+    var cx = 180, cy = 300 + off * 0.4;
+    var x2 = 700, y2 = 520 + off;
+
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M ' + x1 + ' ' + y1 + ' Q ' + cx + ' ' + cy + ' ' + x2 + ' ' + y2);
+    path.setAttribute('stroke', 'rgb(' + r + ',' + g + ',' + b + ')');
+    path.setAttribute('stroke-width', '1.6');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('opacity', opacity);
+    svg.appendChild(path);
+  }
+})();
+
+(function initNav(){
+  var navbar = document.getElementById('navbar');
+  var links = document.querySelectorAll('.nav-links a[href^="#"]');
+  var sections = [];
+  links.forEach(function(l){
+    var el = document.getElementById(l.getAttribute('href').slice(1));
+    if (el) sections.push({el: el, link: l});
+  });
+
+  var ticking = false;
   function onScroll(){
-    var max = document.documentElement.scrollHeight - window.innerHeight;
-    var pct = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
-    if (fill) fill.style.height = (pct * 100) + '%';
-    if (bar)  bar.style.width   = (pct * 100) + '%';
-
-    var mid = window.scrollY + window.innerHeight * 0.35;
-    var idx = 0;
-    sections.forEach(function(s, i){ if (s && s.offsetTop <= mid) idx = i; });
-    hops.forEach(function(h, i){ h.classList.toggle('is-active', i === idx); });
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      navbar.classList.toggle('scrolled', window.scrollY > 30);
+      var mid = window.scrollY + window.innerHeight * 0.4;
+      var active = null;
+      sections.forEach(function(s){ if (s.el.offsetTop <= mid) active = s.el.id; });
+      links.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + active); });
+      ticking = false;
+    });
   }
-
-  window.addEventListener('scroll', onScroll, {passive:true});
-  window.addEventListener('resize', onScroll);
+  window.addEventListener('scroll', onScroll, {passive: true});
   onScroll();
+})();
 
-  if ('IntersectionObserver' in window){
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if (e.isIntersecting){ e.target.classList.add('is-in'); io.unobserve(e.target); }
-      });
-    }, {threshold:0.12});
-    document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
-  } else {
-    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('is-in'); });
+(function initMobileNav(){
+  var burger = document.getElementById('burger');
+  var navLinks = document.getElementById('navLinks');
+  if (!burger || !navLinks) return;
+
+  function close(){
+    burger.classList.remove('open');
+    navLinks.classList.remove('open');
+    burger.setAttribute('aria-expanded', 'false');
   }
+  burger.addEventListener('click', function(){
+    var open = navLinks.classList.toggle('open');
+    burger.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', String(open));
+  });
+  navLinks.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', close); });
+  document.addEventListener('click', function(e){
+    if (!burger.contains(e.target) && !navLinks.contains(e.target)) close();
+  });
+})();
+
+(function initScroll(){
+  var navH = 64;
+  document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var target = document.getElementById(a.getAttribute('href').slice(1));
+      if (!target) return;
+      e.preventDefault();
+      window.scrollTo({top: target.offsetTop - navH, behavior: 'smooth'});
+    });
+  });
+})();
+
+(function initFade(){
+  if (!('IntersectionObserver' in window)){
+    document.querySelectorAll('.fade-in').forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, {threshold: 0.1, rootMargin: '0px 0px -40px 0px'});
+  document.querySelectorAll('.fade-in').forEach(function(el){ obs.observe(el); });
+})();
+
+document.querySelectorAll('.projects-grid .pcard').forEach(function(el, i){
+  el.style.transitionDelay = (i * 75) + 'ms';
+});
+
+(function initCounters(){
+  var counters = document.querySelectorAll('.count-num');
+  if (!counters.length) return;
+
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (!entry.isIntersecting) return;
+      var el = entry.target;
+      var target = parseInt(el.dataset.target, 10);
+      var dur = 1200, step = 16;
+      var inc = target / (dur / step);
+      var cur = 0;
+
+      function tick(){
+        cur = Math.min(cur + inc, target);
+        el.textContent = Math.floor(cur);
+        if (cur < target) setTimeout(tick, step);
+      }
+      tick();
+      obs.unobserve(el);
+    });
+  }, {threshold: 0.5});
+
+  counters.forEach(function(el){ obs.observe(el); });
 })();
 </script>
 </body>
