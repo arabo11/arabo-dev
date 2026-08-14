@@ -231,9 +231,12 @@ h1{font-size:clamp(2.6rem,5.5vw,5.2rem);font-weight:800;line-height:1.05;letter-
 .fun-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;margin-bottom:20px}
 .fun-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .25s,transform .25s,box-shadow .25s}
 .fun-card:hover{border-color:var(--border-h);transform:translateY(-5px);box-shadow:0 20px 48px rgba(0,0,0,.35)}
-.fun-card picture{display:block;overflow:hidden}
-.fun-card img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;transition:transform .5s var(--ease)}
+.fun-card picture{display:block;overflow:hidden;aspect-ratio:3/2}
+.fun-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s var(--ease)}
 .fun-card:hover img{transform:scale(1.1)}
+.fun-card--contain picture{background:var(--card-h)}
+.fun-card--contain img{object-fit:contain}
+.fun-card--contain:hover img{transform:scale(1.04)}
 .fun-card figcaption{padding:16px 18px;font-size:.9rem;color:var(--text-sub);font-style:italic}
 .fun-credit{font-family:var(--mono);font-size:.72rem;color:var(--text-muted);letter-spacing:.04em}
 
@@ -631,10 +634,10 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:28px 0}
         </picture>
         <figcaption>According to Njegos, this is what a zero-downtime Friday deploy earns you.</figcaption>
       </figure>
-      <figure class="fun-card">
+      <figure class="fun-card fun-card--contain">
         <picture>
           <source srcset="fun2.webp" type="image/webp">
-          <img src="fun2.jpg" alt="AI-generated portrait of Arabo as a tycoon with an AWS Hero trophy" width="900" height="600" loading="lazy">
+          <img src="fun2.jpg" alt="AI-generated portrait of Arabo as a tycoon with an AWS Hero trophy" width="1000" height="613" loading="lazy">
         </picture>
         <figcaption>Njegos's rendering of my next 1:1 with leadership.</figcaption>
       </figure>
